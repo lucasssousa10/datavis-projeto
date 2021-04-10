@@ -29,3 +29,5 @@ dataset_vaccine = d3.csv(base_url + '/files/vaccinations').then(function(data) {
     return data
 });
 
+facts = crossfilter(dataset_vaccine)
+dateDimension = facts.dimension( d => d.date)
