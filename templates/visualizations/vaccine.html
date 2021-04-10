@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Vaccine Evolution{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="row title-visualization">
+  <div class="col-md-12">
+    <h4>Humans versus covid-19</h4>
+    <h5>The evolution of vaccinations in the world.</h5>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-10">
+    <label for="pandemic-period-range" class="form-label">Pandemic Period</label>
+    <input type="range" class="form-range" min="0" max="7" value=0 step=1 id="pandemic-period-range">
+  </div>
+  <div class="col-md-2" id="pandemic-period-label"></div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="card p-3">
+      <div id="countries-bar-graph" class="card-body"></div>
+    </div>
+  </div>
+  
+  <div class="col-md-6">
+    <div class="card p-3">
+      <div id="countries-map" class="card-body"></div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
