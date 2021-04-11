@@ -8,6 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="{{url_for('static', filename='css/bootstrap/bootstrap.min.css')}}" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
     <link href="{{url_for('static', filename='css/style.css')}}" rel="stylesheet">
+    <link href="{{url_for('static', filename='css/dc/dc.css')}}" rel="stylesheet">
 
     <title>{% block title %}{% endblock %}</title>
   </head>
@@ -42,10 +43,11 @@
     <script src="{{url_for('static', filename='js/bootstrap/bootstrap.min.js')}}" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
     <script src="{{url_for('static', filename='js/d3/d3.v5.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/crossfilter/crossfilter.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/dc/dc.js')}}"></script>
 
     <!-- import visualization script -->
 
     <script src="{{url_for('static', filename='js/visualizations/vaccine.js')}}"></script>
-    
+
   </body>
 </html>
