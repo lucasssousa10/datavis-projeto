@@ -18,4 +18,4 @@
 
 ### Referências do conjunto de dados:
 * GARG, Ayush. COVID-19 World Vaccine Adverse Reactions. Disponível em <URL : https://www.kaggle.com/ayushggarg/covid19-vaccine-adverse-reactions>. Acesso em 21 de fev. de 2021. 
-* PREDA, Gabriel. COVID-19 World Vaccination Progress. Disponível em <URL : <https://www.kaggle.com/ayushggarg/covid19-vaccine-adverse-reactions>. Acesso em 21 de fev. de 2021.
+* PREDA, Gabriel. COVID-19 World Vaccination Progress. Disponível em <URL : https://www.kaggle.com/gpreda/covid-world-vaccination-progress>. Acesso em 21 de fev. de 2021.
