@@ -14,7 +14,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-10">
+  <div class="col-md-9">
     <label for="pandemic-period-range" class="form-label">Pandemic Period</label>
     <input type="range" class="form-range" min="0" max="7" value=0 step=1 id="pandemic-period-range">
   </div>
@@ -22,9 +22,45 @@
 </div>
 
 <div class="row">
-  <div class="col-md-10">
+  <div class="col-md-4">
+    <div class="card card-info text-white bg-secondary">
+      <div class="card-body">
+        <div class="card-info-title">Country pioneer in vaccination</div>
+        <div id="country-pioneer-vaccination" class="card-info-value"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-info text-white bg-secondary">
+      <div class="card-body">
+        <div class="card-info-title">Most immunized country</div>
+        <div id="country-most-immunized" class="card-info-value"></div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card card-info">
+      <div class="card-body  text-white bg-secondary">
+        <div class="card-info-title">Least immunized country</div>
+        <div id="country-least-immunized" class="card-info-value"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
     <div class="card">
+      <div class="card-header">Vaccine number by country</div>
       <div id="countries-bar-graph" class="card-body"></div>
+    </div>
+  </div>
+
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-header">Vaccine number by company</div>
+      <div class="card-body" id="bar-vaccine-type">
+      </div>
     </div>
   </div>
 

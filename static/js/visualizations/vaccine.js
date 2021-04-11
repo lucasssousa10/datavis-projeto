@@ -23,6 +23,7 @@ promise_ds = d3.csv(base_url + '/files/vaccinations').then(function(data) {
     data.forEach(function(d) {
         d.date = parseDate(d.date)
         d.daily_vaccinations = d.daily_vaccinations == "" ? 0 : eval(d.daily_vaccinations)
+        d.people_fully_vaccinated = d.people_fully_vaccinated == "" ? 0 : eval(d.people_fully_vaccinated)
     })
     return data
 });
@@ -39,21 +40,53 @@ Promise.all([promise_ds]).then((dataset_vaccine) => {
 
     let date_dimension = facts.dimension(d => d.date).filterRange([new Date('2020-01-01'), new Date(pandemic_periods[pandemic_period_idx])])
     let country_dimension = facts.dimension(d => d.country)
+    let vaccine_dimension = facts.dimension(d => d.vaccines)
     let daily_vaccinations_by_country = country_dimension.group().reduceSum(d => d.daily_vaccinations)
+    let vaccine_by_company = vaccine_dimension.group().reduceSum(d => d.daily_vaccinations)
+    let country_fully_vaccined = country_dimension.group().reduceSum(d => d.people_fully_vaccinated)
     let country_names = daily_vaccinations_by_country.top(top_n).map(d => d.key)
-    var x_country_scale = d3.scaleOrdinal().domain(country_names);
+    let x_country_scale = d3.scaleOrdinal().domain(country_names)
+    let x_vaccine_scale = d3.scaleLog().domain([0,vaccine_by_company.top(1)[0].value])
     
+    // find informations to cards
+    
+    pioneer_vaccination = date_dimension.bottom(1)[0]
+    
+    country_most_fully_vaccined = {key: "", value: 0};
+    country_least_fully_vaccined = {key: "", value: Infinity};
+    country_fully_vaccined.all().forEach(function(item) {
+        if(item.value > country_most_fully_vaccined.value) {
+            country_most_fully_vaccined.key = item.key
+            country_most_fully_vaccined.value = item.value 
+        }
+
+        if(item.value < country_least_fully_vaccined.value) {
+            country_least_fully_vaccined.key = item.key
+            country_least_fully_vaccined.value = item.value 
+        }   
+    })
+    
+    
+    d3.select("#country-pioneer-vaccination").text(pioneer_vaccination.country)
+    d3.select("#country-most-immunized").text(country_most_fully_vaccined.value > 0 ? country_most_fully_vaccined.key : "")
+    d3.select("#country-least-immunized").text(country_least_fully_vaccined.key)
+    // d3.select("#country-more-vaccine-types", country_more_variety_countries.value > 0 ? country_more_variety_countries.key : "")
+
+    // create charts
+
     let daily_vaccinations_chart = dc.barChart(document.getElementById("countries-bar-graph"))
+    let horizontal_chart = new dc.RowChart("#bar-vaccine-type");
 
     daily_vaccinations_chart
-        .width(1000)
+        .width(800)
         .height(300)
-        .margins({top: 10, right: 10, bottom: 120, left:40})
+        .margins({top: 30, right: 10, bottom: 110, left:40})
         .dimension(country_dimension)
-        .group(daily_vaccinations_by_country)
+        .group(daily_vaccinations_by_country, "Vaccine amount")
         .transitionDuration(1000)
         .centerBar(false)
         .renderHorizontalGridLines(true)
+        .legend(dc.legend().x(700).y(0).itemHeight(13).gap(5))
         .x(x_country_scale)
         .elasticY(true)
         .xUnits(dc.units.ordinal)
@@ -66,7 +99,29 @@ Promise.all([promise_ds]).then((dataset_vaccine) => {
                 item.setAttribute("transform", "rotate(-70)");
             })
         });
-        daily_vaccinations_chart.yAxis().tickFormat(d3.format('.1s'));
+    daily_vaccinations_chart.yAxis().tickFormat(d3.format('.2s'));
+
+    horizontal_chart
+        .width(400)
+        .height(300)
+        .dimension(vaccine_dimension)
+        .group(vaccine_by_company)
+        .x(x_vaccine_scale)
+        .elasticX(true)
+        .on("renderlet", function(chart) {
+            rects = chart.selectAll('.row').selectAll('rect')
+            rects._groups.forEach(function(rect) {
+                if(rect[0] !== undefined)
+                    rect[0].setAttribute("style", "width:" + rect[0].getAttribute("width") + ";")
+            })
+            texts = chart.selectAll('.row').selectAll('text')
+            texts._groups.forEach(function(txt) {
+                if(txt[0] !== undefined)
+                    txt[0].setAttribute("style", "fill: #000000;")
+            })
+        })
+        .xAxis().tickFormat(d3.format('.2s')).ticks(5)
+        
 
     dc.renderAll()
     
@@ -79,6 +134,25 @@ Promise.all([promise_ds]).then((dataset_vaccine) => {
         country_names = daily_vaccinations_by_country.top(top_n).map(d => d.key)
         x_country_scale = d3.scaleOrdinal().domain(country_names);
         daily_vaccinations_chart.x(x_country_scale)
+
+        x_vaccine_scale = d3.scaleLog().domain([0,vaccine_by_company.top(1)[0].value])
+        
+        country_most_fully_vaccined = {key: "", value: 0};
+        country_least_fully_vaccined = {key: "", value: Infinity};
+        country_fully_vaccined.all().forEach(function(item) {
+            if(item.value > country_most_fully_vaccined.value) {
+                country_most_fully_vaccined.key = item.key
+                country_most_fully_vaccined.value = item.value 
+            }
+
+            if(item.value < country_least_fully_vaccined.value) {
+                country_least_fully_vaccined.key = item.key
+                country_least_fully_vaccined.value = item.value 
+            }   
+        })
+        
+        d3.select("#country-most-immunized").text(country_most_fully_vaccined.value > 0 ? country_most_fully_vaccined.key : "")
+        d3.select("#country-least-immunized").text(country_least_fully_vaccined.key)
 
         dc.redrawAll();
     })    

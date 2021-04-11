@@ -6,3 +6,13 @@
 #pandemic-period-label {
     padding-top: 30px;
 }
+
+.card-info {
+    margin-bottom: 30px;
+    margin-top: 20px;
+    height: 80px;
+}
+
+.card-info .card-info-title {
+    font-weight: bold;
+}
