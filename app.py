@@ -29,6 +29,10 @@ def base():
 
 #pages
 
+@app.route('/home')
+def home():
+    return render_template("home.html")
+
 @app.route('/visualizations/vaccine')
 def vaccine():
     return render_template("visualizations/vaccine.html")

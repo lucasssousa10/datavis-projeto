@@ -53,3 +53,15 @@
 #state-tooltip-val {
     font-weight: bold;
 }
+
+#death-graph {
+    margin-top: 20px;
+}
+
+.col-graph {
+    width: 600px;
+}
+
+#card-map {
+    height: 471px;
+}    

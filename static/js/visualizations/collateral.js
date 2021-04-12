@@ -25,8 +25,11 @@ function hideTooltip(){
 // load datasets 
 
 dataset_collateral = d3.csv(base_url + "/files/vaccinations_collateral").then(function(data) {
+    let parseDate = d3.utcParse("%m/%d/%Y")
     data.forEach((item) => {
         item.CAGE_YR = item.CAGE_YR !== "" ? eval(item.CAGE_YR) : 1;
+        item.DIED = item.DIED === "" || item.DIED === 'N' ? 0 : 1;
+        item.RECVDATE = parseDate(item.RECVDATE)
     })
     return data;
 })
@@ -45,6 +48,10 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
     facts = crossfilter(ds_data)
     state_code_dimension = facts.dimension(d => d.CODE)
     state_sex_dimension = facts.dimension(d => d.SEX)
+    state_died_dimension = facts.dimension(d => d.DIED)
+    state_time_dimension = facts.dimension(d => d.RECVDATE)
+    state_died_by_time = state_time_dimension.group().reduceSum(d => d.DIED)
+
     state_sex_group = state_sex_dimension.group().reduceCount()
     state_code_count = state_code_dimension.group().reduceCount().all()
 
@@ -81,7 +88,7 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
 
     last_filter_state_id = null    
     const width = 600
-    const height = 360
+    const height = 450
     const svg = d3.select("#map-us")
         .append("svg")
         .attr("width", width)
@@ -90,7 +97,7 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
     
     svg.append("g")
         .attr("class", "states")
-        .attr("transform", "scale(0.6)")
+        .attr("transform", "scale(0.63)")
     .selectAll("path")
         .data(topojson.feature(ds_map, ds_map.objects.states).features)
         .enter()
@@ -141,8 +148,23 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
         .colorAccessor(d => d.key)
         .x(x_sex_scale)
         .elasticY(true)
+        .yAxis().ticks(5);
         sex_group_chart.yAxis().tickFormat(d3.format('.2s'));
 
-        dc.renderAll()
+    timeChart = dc.lineChart(document.getElementById("linechart-deads"))
+    
+    timeChart
+        .width(500)
+        .height(100)
+        .transitionDuration(500)
+        .margins({top: 10, right: 10, bottom: 20, left:40})
+        .dimension(state_time_dimension)
+        .group(state_died_by_time)
+        .brushOn(false)
+        .elasticY(true)
+        .x(d3.scaleTime().domain(d3.extent(ds_data, d => d.RECVDATE)))
+        .yAxis().ticks(5);
+
+    dc.renderAll()    
 })
 

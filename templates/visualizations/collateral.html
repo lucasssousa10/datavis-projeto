@@ -15,7 +15,7 @@
 
 <div class="row">
     <div class="col-md-6">
-        <div class="card">
+        <div class="card" id="card-map">
             <div class="card-header">
                 Number of collateral effects caused by covid-19 vaccine in the USA
             </div>
@@ -27,16 +27,26 @@
             <p><span id='state-tooltip-val'></span><br>Collateral effects of vaccine: <span id='num-collateral-effects-val'></span></p>
         </div>
     </div>
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header">Collateral effects occurs by sex</div>
-            <div class="card-body">
-                <div id="state-occurs-scatter"></div>
+    <div class="col-md-6">
+        <div class="col-md-6">
+            <div class="card col-graph">
+                <div class="card-header">Collateral effects occurs by sex</div>
+                <div class="card-body">
+                    <div id="state-occurs-scatter"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card col-graph" id="death-graph">
+                <div class="card-header">Collateral effects occurs by sex</div>
+                <div class="card-body">
+                    <div id="linechart-deads"></div>
+                </div>
             </div>
         </div>
     </div>
-
 </div>
+
 
 
 {% endblock %}
