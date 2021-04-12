@@ -125,9 +125,17 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
                     state_code_dimension.filterAll()
                     state_code_dimension.filter(d.id)
                     last_filter_state_id = d.id
+
+                    d3.select("#td-state-name").text(state_by_code.get(d.id).state_name)
+                    d3.select("#td-state-abbreviation").text(state_by_code.get(d.id).state)
+                    d3.select("#td-state-code").text(d.id)
+
                 } else {
                     last_filter_state_id = null
                     state_code_dimension.filterAll()
+                    d3.select("#td-state-name").text("")
+                    d3.select("#td-state-abbreviation").text("")
+                    d3.select("#td-state-code").text("")
                 }
                 dc.redrawAll();
             })
@@ -154,7 +162,7 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
     timeChart = dc.lineChart(document.getElementById("linechart-deads"))
     
     timeChart
-        .width(500)
+        .width(530)
         .height(100)
         .transitionDuration(500)
         .margins({top: 10, right: 10, bottom: 20, left:40})

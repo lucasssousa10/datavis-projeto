@@ -9,7 +9,7 @@
 <div class="row title-visualization">
     <div class="col-md-12">
         <h4>Collateral effects of COVID-19 vaccine</h4>
-        <h5>The caused by the vaccines</h5>
+        <p>Vaccines against covid-19 can cause several side effects, including death. This visualization presents data about the side effects and deaths caused by applying immunization in the USA.</p>
     </div>
 </div>
 
@@ -28,11 +28,33 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="col-md-6">
-            <div class="card col-graph">
+        <div class="col-md-6 graph-col-overflow">
+            <div class="card col-graph-sex">
                 <div class="card-header">Collateral effects occurs by sex</div>
                 <div class="card-body">
                     <div id="state-occurs-scatter"></div>
+                </div>
+            </div>
+            <div class="card col-graph-sex" id="div-informations">
+                <div class="card-header">State informations</div>
+                <div class="card-body">
+                    <table class="table" id="table-informations-state">
+                        <tbody>
+                            <tr>
+                                <th>State name</th>
+                                <td id="td-state-name"></td>
+                            </tr>
+                            <tr>
+                                <th>State abbreviation</th>
+                                <td id="td-state-abbreviation"></td>
+                            </tr>
+                            <tr>
+                                <th>State code</th>
+                                <td id="td-state-code"></td>
+                            </tr>
+                        </tbody>
+                    
+                    </table>
                 </div>
             </div>
         </div>

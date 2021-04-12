@@ -9,13 +9,13 @@
 <div class="row title-visualization">
   <div class="col-md-12">
     <h4>Humans versus covid-19</h4>
-    <h5>The evolution of vaccinations in the world.</h5>
+    <p>Due to the coronavirus pandemic, several countries have made a significant investment in vaccines. This visualization shows the evolution of the number of vaccinations that occurred over time.</p>
   </div>
 </div>
 
 <div class="row">
   <div class="col-md-9">
-    <label for="pandemic-period-range" class="form-label">Pandemic Period</label>
+    <label for="pandemic-period-range" class="form-label">Adjust the date limit to analysis</label>
     <input type="range" class="form-range" min="0" max="7" value=0 step=1 id="pandemic-period-range">
   </div>
   <div class="col-md-2" id="pandemic-period-label"></div>
@@ -23,7 +23,7 @@
 
 <div class="row">
   <div class="col-md-4">
-    <div class="card card-info text-white bg-secondary">
+    <div class="card card-info text-white bg-success">
       <div class="card-body">
         <div class="card-info-title">Country pioneer in vaccination</div>
         <div id="country-pioneer-vaccination" class="card-info-value"></div>
@@ -31,7 +31,7 @@
     </div>
   </div>
   <div class="col-md-4">
-    <div class="card card-info text-white bg-secondary">
+    <div class="card card-info text-white bg-warning">
       <div class="card-body">
         <div class="card-info-title">Most immunized country</div>
         <div id="country-most-immunized" class="card-info-value"></div>
@@ -40,7 +40,7 @@
   </div>
   <div class="col-md-4">
     <div class="card card-info">
-      <div class="card-body  text-white bg-secondary">
+      <div class="card-body  text-white bg-danger">
         <div class="card-info-title">Least immunized country</div>
         <div id="country-least-immunized" class="card-info-value"></div>
       </div>
@@ -51,14 +51,14 @@
 <div class="row">
   <div class="col-md-8">
     <div class="card">
-      <div class="card-header">Vaccine number by country</div>
+      <div class="card-header">Cumulative vaccinated people number by country until the selected date</div>
       <div id="countries-bar-graph" class="card-body"></div>
     </div>
   </div>
 
   <div class="col-md-4">
     <div class="card">
-      <div class="card-header">Vaccine number by company</div>
+      <div class="card-header">Applied vaccine amount by laboratory</div>
       <div class="card-body" id="bar-vaccine-type">
       </div>
     </div>
