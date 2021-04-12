@@ -24,7 +24,13 @@ function hideTooltip(){
 
 // load datasets 
 
-dataset_collateral = d3.csv(base_url + "/files/vaccinations_collateral")
+dataset_collateral = d3.csv(base_url + "/files/vaccinations_collateral").then(function(data) {
+    data.forEach((item) => {
+        item.CAGE_YR = item.CAGE_YR !== "" ? eval(item.CAGE_YR) : 1;
+    })
+    return data;
+})
+
 dataset_us_map = d3.json(base_url + "/files/us_map")
 
 Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
@@ -38,11 +44,15 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
 
     facts = crossfilter(ds_data)
     state_code_dimension = facts.dimension(d => d.CODE)
+    state_sex_dimension = facts.dimension(d => d.SEX)
+    state_sex_group = state_sex_dimension.group().reduceCount()
     state_code_count = state_code_dimension.group().reduceCount().all()
-    
+
+    let sex_names = state_sex_group.top(Infinity).map(d => d.key)
+    let x_sex_scale = d3.scaleOrdinal().domain(sex_names)
+
     minimal_state = {key: "", value: Infinity};
     max_state = {key: "", value: 0};
-    
     let stateCountMap = new Map()
     state_code_count.forEach((item) => {
         
@@ -61,10 +71,15 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
         }
     });
 
+    sexColorScale = d3.scaleOrdinal()
+        .domain(["M", "U", "F"])
+        .range(["#0d6efd", "#6c757d", "#d63384"])
+
     colorScaleMap = d3.scaleQuantize()
         .domain([minimal_state.value, max_state.value])
-        .range(d3.schemeGreens[9])
+        .range(d3.schemeReds[9])
 
+    last_filter_state_id = null    
     const width = 600
     const height = 360
     const svg = d3.select("#map-us")
@@ -98,5 +113,36 @@ Promise.all([dataset_collateral, dataset_us_map]).then((datasets) => {
                     .attr("stroke", "rgb(185, 184, 184)");
                     hideTooltip()
             })
+            .on("click", function(d) {
+                if(last_filter_state_id !== d.id) {
+                    state_code_dimension.filterAll()
+                    state_code_dimension.filter(d.id)
+                    last_filter_state_id = d.id
+                } else {
+                    last_filter_state_id = null
+                    state_code_dimension.filterAll()
+                }
+                dc.redrawAll();
+            })
+    
+    let sex_group_chart = dc.barChart(document.getElementById("state-occurs-scatter"))
+    
+    sex_group_chart
+        .width(250)
+        .height(200)
+        .margins({top: 20, right: 0, bottom: 20, left:40})
+        .dimension(state_sex_dimension)
+        .group(state_sex_group, "collateral effects")
+        .centerBar(false)
+        .renderHorizontalGridLines(true)
+        .xUnits(dc.units.ordinal)
+        .legend(dc.legend().x(700).y(0).itemHeight(13).gap(5))
+        .colors(sexColorScale)
+        .colorAccessor(d => d.key)
+        .x(x_sex_scale)
+        .elasticY(true)
+        sex_group_chart.yAxis().tickFormat(d3.format('.2s'));
+
+        dc.renderAll()
 })
 

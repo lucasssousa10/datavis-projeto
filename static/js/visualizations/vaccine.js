@@ -12,6 +12,7 @@ pandemic_periods = [
     '2021-04-15'
 ]
 
+
 pandemic_period_idx = d3.select("#pandemic-period-range").property('value')
 d3.select("#pandemic-period-label").text("until " + pandemic_periods[pandemic_period_idx])
 
