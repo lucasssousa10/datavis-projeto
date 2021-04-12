@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Collateral effects{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<div class="row title-visualization">
+    <div class="col-md-12">
+        <h4>Collateral effects of COVID-19 vaccine</h4>
+        <h5>The caused by the vaccines</h5>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                Number of collateral effects caused by covid-19 vaccine in the USA
+            </div>
+            <div class="card-body">
+                <div id="map-us"></div>
+            </div>
+        </div>
+    </div>
+    <div id="tooltip" class="hidden">
+        <p><span id='state-tooltip-val'></span><br>Collateral effects of vaccine: <span id='num-collateral-effects-val'></span></p>
+    </div>
+</div>
+
+
+{% endblock %}

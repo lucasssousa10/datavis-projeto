@@ -25,6 +25,9 @@
                     <li class="nav-item">
                       <a class="nav-link" href="{{ url_for('vaccine') }}">Vaccines</a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ url_for('collateral') }}">Collateral effects</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -41,11 +44,13 @@
     <script src="{{url_for('static', filename='js/d3/d3.v5.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/crossfilter/crossfilter.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/dc/dc.js')}}"></script>
+    <script src="{{url_for('static', filename='js/topojson/topojson-client.min.js')}}"></script>
 
     <!-- import visualization script -->
 
     <script src="{{url_for('static', filename='js/visualizations/utils.js')}}"></script>
     <script src="{{url_for('static', filename='js/visualizations/vaccine.js')}}"></script>
+    <script src="{{url_for('static', filename='js/visualizations/collateral.js')}}"></script>
 
   </body>
 </html>
